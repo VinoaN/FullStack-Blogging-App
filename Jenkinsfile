@@ -34,7 +34,7 @@ pipeline {
         }
 		stage('Sonarqube Analysis') {
            steps {
-		
+		withSonarQubeEnv('MySonarQube') {
 sh ''' 
 $SCANNER_HOME/bin/sonar-scanner \
   -Dsonar.projectKey=Blogging-App \
@@ -42,11 +42,10 @@ $SCANNER_HOME/bin/sonar-scanner \
   -Dsonar.projectVersion=1.0 \
   -Dsonar.sources=src/main/java \
   -Dsonar.java.binaries=target/classes \
-  -Dsonar.sourceEncoding=UTF-8 \
-  -Dsonar.host.url=http://13.203.213.146:9000/ \
-  -Dsonar.login=squ_e3e469275d19de866fd1245dfd459a2beabb6a73
+  -Dsonar.sourceEncoding=UTF-8
 '''
     }
+}
 }
 
 stage('OWASP Dependency Check') {
